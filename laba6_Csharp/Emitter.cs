@@ -13,7 +13,11 @@ namespace laba6_Csharp
         List<Particle> particles = new List<Particle>();
         public int MousePositionX;
         public int MousePositionY;
-        
+
+        public float GravitationX = 0;
+        public float GravitationY = 1; // пусть гравитация будет силой один пиксель за такт, нам хватит
+
+
 
         public void UpdateState()
         {
