@@ -60,4 +60,6 @@ namespace laba6_Csharp
             particle.SpeedY -= gY * Power / r2; // и тут
         }
     }
+
+   
 }

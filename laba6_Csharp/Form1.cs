@@ -7,18 +7,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static laba6_Csharp.Emitter;
 using static laba6_Csharp.Particle;
 
 namespace laba6_Csharp
 {
     public partial class Form1: Form
     {
-        Emitter emitter = new Emitter(); // добавили эмиттер
+        Emitter emitter; // добавили эмиттер
 
         public Form1()
         {
             InitializeComponent();
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
+
+            // а тут теперь вручную создаем
+            emitter = new TopEmitter
+            {
+                Width = picDisplay.Width,
+                GravitationY = 0.25f
+            };
 
             // гравитон
             emitter.impactPoints.Add(new GravityPoint
@@ -41,8 +49,6 @@ namespace laba6_Csharp
                 Y = picDisplay.Height / 2
             });
         }
-
-        int counter = 0; // добавлю счетчик чтобы считать вызовы функции
 
         // ну и обработка тика таймера, тут просто декомпозицию выполнили
         private void timer1_Tick(object sender, EventArgs e)
