@@ -15,9 +15,9 @@ namespace laba6_Csharp
         public int MousePositionY;
 
         public float GravitationX = 0;
-        public float GravitationY = 1; // пусть гравитация будет силой один пиксель за такт, нам хватит
+        public float GravitationY = 0; // пусть гравитация будет силой один пиксель за такт, нам хватит
 
-
+        public List<Point> gravityPoints = new List<Point>(); // тут буду хранится точки притяжения
 
         public void UpdateState()
         {
@@ -45,8 +45,22 @@ namespace laba6_Csharp
                 }
                 else
                 {
-                    // и добавляем новый, собственно он даже проще становится, 
-                    // так как теперь мы храним вектор скорости в явном виде и его не надо пересчитывать
+                    // каждая точка по-своему воздействует на вектор скорости
+                    foreach (var point in gravityPoints)
+                    {
+                        float gX = point.X - particle.X;
+                        float gY = point.Y - particle.Y;
+                        float r2 = (float)Math.Max(100, gX * gX + gY * gY); // ограничил
+                        float M = 100;
+
+                        particle.SpeedX += (gX) * M / r2;
+                        particle.SpeedY += (gY) * M / r2;
+                    }
+
+                    // это не трогаем
+                    particle.SpeedX += GravitationX;
+                    particle.SpeedY += GravitationY;
+
                     particle.X += particle.SpeedX;
                     particle.Y += particle.SpeedY;
                 }
@@ -81,6 +95,18 @@ namespace laba6_Csharp
             foreach (var particle in particles)
             {
                 particle.Draw(g);
+            }
+
+            // рисую точки притяжения красными кружочками
+            foreach (var point in gravityPoints)
+            {
+                g.FillEllipse(
+                    new SolidBrush(Color.Red),
+                    point.X - 5,
+                    point.Y - 5,
+                    10,
+                    10
+                );
             }
         }
     }
